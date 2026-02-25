@@ -1,10 +1,9 @@
-const apiKey = "dbbb9d9584a02a3a6f9bcf6dfd36f68e";
 const city = document.querySelector("input");
 const searchBtn = document.querySelector("button");
 const weatherIcon = document.querySelector(".weather-icon");
 
-async function getWeather(city) {
-    let url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${apiKey}`;
+async function getWeather(cityName) {
+    let url = `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&units=metric&appid=${apiKey}`;
 
     const response = await fetch(url);
 
@@ -18,7 +17,7 @@ async function getWeather(city) {
     document.querySelector(".city").innerHTML = data.name;
     document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°C";
     document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
-    document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+    document.querySelector(".wind").innerHTML = (data.wind.speed * 3.6).toFixed(1) + " km/h";
 
     const weatherMain = data.weather[0].main;
 
@@ -38,6 +37,7 @@ async function getWeather(city) {
         weatherIcon.src = "images/mist.png";
     }
     document.querySelector(".weather").style.display = "block";
+    document.querySelector(".error").style.display = "none";
 }
 
 function handleSearch(){
